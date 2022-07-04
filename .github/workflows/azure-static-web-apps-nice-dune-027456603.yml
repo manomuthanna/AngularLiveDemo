@@ -8,7 +8,24 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
+      
+  workflow_dispatch:
+    inputs:
+      resourceName:
+        type: string
+        description: The base name to use for creating resources
+        required: true
 
+      environment:
+        type: choice
+        description: The abbreviation of a environment.
+        required: false
+        default: dev
+        options:
+          - dev
+          - inte
+          - prep
+          - prod
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
